@@ -1,13 +1,37 @@
-import './App.css';
-import Hello from './component/Hello'
-import styles from "./App.module.css";
+import Day from "./component/Day";
+import DayList from "./component/DayList";
+import Header from "./component/Header";
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import EmptyPage from "./component/EmptyPage";
+import CreateWord from "./component/CreateWord";
+import CreateDay from "./component/CreateDay";
 
 function App() {
   return (
+    <BrowserRouter>
     <div className="App">
-    <Hello />
-    <div className={styles.box}>App</div>
+      <Header /> 
+      <Switch>
+        <Route exact path="/"> 
+        {/* 첫페이지 */}
+      <DayList />
+      </Route>
+      <Route path="/day/:day">
+      <Day />
+      </Route>
+      <Route path="/create_word">
+        <CreateWord />
+      </Route>
+      <Route path="/create_day">
+        <CreateDay />
+      </Route>
+      <Route>
+        <EmptyPage />
+      </Route>
+      </Switch>
+
     </div>
+    </BrowserRouter>
   );
 }
 
