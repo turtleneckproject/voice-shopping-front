@@ -1,1 +1,0 @@
-# React-Management-Tutorial

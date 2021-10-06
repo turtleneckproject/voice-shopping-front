@@ -1,8 +1,0 @@
-.product_grid {
-    display: grid;
-    width: 1280px;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-column-gap: 40px;
-    grid-row-gap: 180px;
-}
