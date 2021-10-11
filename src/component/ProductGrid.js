@@ -11,7 +11,7 @@ const ProductGrid = (props) => {
         const fetchData = async () => {
             setLoading(true);
             try{
-                const response = await axios.get('http://localhost:8080/api/item', {
+                const response = await axios.get('https://voice-shopping-server.herokuapp.com/api/item', {
                     params: {keyword: props.keyword}});
                 setProducts(response.data);
             } catch(e){

@@ -4,7 +4,7 @@
     /* height: 740px; */
     margin: 0 0 200px 0;
 }
-.product_img {
+.product_img img{
     width: 510px;
     height: 510px;
     border-radius: 12px;

@@ -10,7 +10,18 @@ const Product = ({info}) => {
     return(
         <div className="product">
             <div className="product_image">
-                <Link to="/product"><img src={image} alt="상품 이미지" /></Link>
+                <Link to={{
+                    pathname: `/product/${productId}`,
+                    props:{
+                        imgSrc: image,
+                        title: newTitle,
+                        mallName: mallName,
+                        id: productId,
+                        price: price,
+                        maker: maker,
+                        brand: brand
+                    }
+                }}><img src={image} alt="상품 이미지" /></Link>
             </div>
             <p className="grid_product_name"><Link to="/product">{newTitle}</Link></p>
             <p className="grid_product_price">

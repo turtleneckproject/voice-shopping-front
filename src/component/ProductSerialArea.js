@@ -1,9 +1,17 @@
+import { useEffect, useState } from 'react';
 import './ProductSerialArea.css';
 
-export default function ProductSerialArea(){
+const ProductSerialArea = ({productId}) => {
+    const [id, setId] = useState();
+
+    useEffect(()=>{
+        setId(productId);
+    }, [productId]);
     return (
         <div className="product_serial area">
-            <p class="product_serial">상품번호 : 1234567890</p>
+            <p class="product_serial">상품번호 : {id}</p>
         </div>
     );
 }
+
+export default ProductSerialArea
