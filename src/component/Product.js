@@ -23,11 +23,11 @@ const Product = ({info}) => {
                     }
                 }}><img src={image} alt="상품 이미지" /></Link>
             </div>
-            <p className="grid_product_name"><Link to="/product">{newTitle}</Link></p>
-            <p className="grid_product_price">
+            <div className="grid_product_name"><Link to="/product">{newTitle}</Link></div>
+            <div className="grid_product_price">
                 <p className="grid_product_price_number">{price}</p>
                 원
-            </p>
+            </div>
         </div>
     );
 }

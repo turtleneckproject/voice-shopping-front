@@ -25,12 +25,12 @@ const ulStyle = {
 export default function TopMenuList(){
     return(
         <ul className="top_menu_list" style = {ulStyle}>
-            <li class="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴1</a></li>
-            <li class="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴2</a></li>
-            <li class="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴3</a></li>
-            <li class="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴4</a></li>
-            <li class="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴5</a></li>
-            <li class="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴6</a></li>
+            <li className="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴1</a></li>
+            <li className="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴2</a></li>
+            <li className="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴3</a></li>
+            <li className="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴4</a></li>
+            <li className="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴5</a></li>
+            <li className="nav_item" style={liStyle}><a href="index.html" style={hrefStyle}>메뉴6</a></li>
         </ul>
     );
 }

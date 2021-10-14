@@ -1,0 +1,122 @@
+.voice {
+    font-size: 15px;
+    text-align: center;
+    background-color: honeydew;
+}
+
+.subName {
+    font-size: 30px;
+    text-align: left;
+    margin-top: 30px;
+    margin-left: 30px;
+    font-family: NotoSansKR-Bold;
+}
+
+.cart_table {
+    float: left;
+    width: 880px;
+    border-collapse: collapse;
+    font-family: NotoSansKR-Regular;
+    color: #686868;
+}
+
+.cart_item_del{
+    width: 5%;
+    padding: 10px;
+}
+
+button.delete {
+    background-color: white;
+    border:none;
+}
+
+.cart_item {
+    height: 140px;
+    border-bottom: solid #EF7F2B;
+    padding: 10px;
+    border-width: 0.3px;
+}
+
+.cart_item_img {
+    width: 15%;
+    padding: 30px;
+}
+
+.cart_item_dsc{
+    width: 55%;
+    padding: 0 8px 0 8px;
+    font-family: NotoSansKR-Regular;
+    font-size: 14px;
+    text-align: left;
+    color: #686868;
+}
+
+.cart_item_price{
+    width: 13%;
+    font-family: NotoSansKR-Regular;
+    font-size: 18px;
+}
+
+.side_way_title{
+    margin : 20px 40px;
+    font-size: 22px;
+}
+
+.side_way {
+    position: static;
+    width: 320px;
+    height: 250px;
+    margin: 20px auto 20px 40px;
+    padding: 40px 20px 20px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 5px rgba(170, 170, 170, 0.3);
+    border-radius: 8px;
+    float: left;
+    
+}
+
+.count_btn{
+    /* display: flex; */
+    width: 12%;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+}
+
+.count_btn input{
+    margin: 0 10px 0 10px;
+    padding: auto;
+    font-family: NotoSansKR-Light;
+    font-size: 12px;
+    text-align: center;
+}
+
+.count_btn_amount{
+    font-size: 14px;
+}
+
+.cart_order_btn{
+    margin-top: 50px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffb57c;
+    font-family: NotoSansKR-Regular;
+    font-size: 22px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.radio_btn{
+    width: 17px;
+    height: 17px;
+    margin-left: 43px;
+
+}
+
+label {
+    font-family: NotoSansKR-Regular;
+    font-size: 17px;
+}
+
+#popup { opacity : 0.5; } 

@@ -15,7 +15,7 @@ const ProductPage = ({location}) => {
     useEffect(()=>{
         console.log("받아온 값: " , location.props);
         setInfo(location.props);
-    },[]);
+    },[location.props]);
 
     return (
     <div>

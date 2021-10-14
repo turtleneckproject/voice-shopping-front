@@ -18,6 +18,7 @@ import ProductPage from "./pages/product";
 import CartPage from "./pages/cart";
 import Header from "./component/Header";
 import SearchPage from "./pages/search";
+import PayPage from "./pages/pay";
 
 
 class App extends Component {
@@ -32,6 +33,7 @@ class App extends Component {
                 <Route path="/product" component={ ProductPage } />
                 <Route path="/join" component={ JoinPage } />
                 <Route path="/cart" component={ CartPage } />
+                <Route path="/pay" component={ PayPage } />
             </Switch>
             </ScrollToTop>
         </div>

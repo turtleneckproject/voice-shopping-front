@@ -9,7 +9,7 @@ const ProductSerialArea = ({productId}) => {
     }, [productId]);
     return (
         <div className="product_serial area">
-            <p class="product_serial">상품번호 : {id}</p>
+            <p className="product_serial">상품번호 : {id}</p>
         </div>
     );
 }

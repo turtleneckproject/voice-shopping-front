@@ -41,6 +41,10 @@
     font-family: NotoSansKR-Medium;
     margin: 0 auto;
 }
+.mic_button{
+    background: none;
+    border: none;
+}
 
 .SearchBar img{
     width: 28px;
