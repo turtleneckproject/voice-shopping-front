@@ -12,7 +12,8 @@ const SearchBar = () => {
     const [value, setValue] = useState('');
     const { listen, listening, stop } = useSpeechRecognition({
       onResult: (result) => {
-        setValue(result);
+        setValue(`"` + result + 
+        `"`);
       },
     });
 
@@ -29,7 +30,7 @@ const SearchBar = () => {
 
     const updateURL = (query) => {
         var newURL;
-        newURL = "/search/" + query;
+        newURL = "/search/" + query.substring( 1, query.length-1 )
         setUrl(newURL);
     }
 
