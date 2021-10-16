@@ -20,7 +20,7 @@ const ProductGrid = (props) => {
             setLoading(false);
         };
         fetchData();
-    }, [props]);
+    }, [props.keyword]);
 
     if(loading){
         return <div>불러오는 중...</div>
@@ -33,8 +33,8 @@ const ProductGrid = (props) => {
 
     return(
         <div className="product_grid">
-            {products.map(product => (
-                <Product key={product.link} info={product} />
+            {products.map((product, index) => (
+                <Product idx={index} key={product.link} info={product} voice={props.voice} voiceInput={props.voiceInput}/>
             ))}
         </div>
     );

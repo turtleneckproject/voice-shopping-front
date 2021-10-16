@@ -5,7 +5,7 @@ import "./SearchBar.css";
 import mic from "../img/voice_mic.png";
 
 
-const SearchBar = () => {
+const SearchBar = ({voiceInput}) => {
 
     const [inputs, setInputs] = useState();
     const [url, setUrl] = useState("/search/");
@@ -18,10 +18,10 @@ const SearchBar = () => {
     });
 
     useEffect(()=>{
-        console.log("저장값: " +value);
+        // console.log("저장값: " +value);
         updateURL(value);
-        console.log("주소값: " +url);
-    }, [inputs, url, value]);
+        // console.log("주소값: " +url);
+    }, [inputs, url, value, voiceInput]);
 
     const OnInputChange = (e) => {
         console.log("입력값: " + e.target.value);
@@ -30,16 +30,18 @@ const SearchBar = () => {
 
     const updateURL = (query) => {
         var newURL;
+        if(query == `"상세보기"`){
+            voiceInput("상세보기");
+            return;
+        }
         newURL = "/search/" + query.substring( 1, query.length-1 )
         setUrl(newURL);
     }
 
     return <form className="SearchBar">
-        <Link to={url}>
-            <button className="mic_button" onMouseDown={listen} onMouseUp={stop}><img src={mic} alt="mic" /></button>
-        </Link>
-        {listening && <div></div>}
+        <button className="mic_button" onMouseEnter={listen} onMouseLeave={stop}><img src={mic} alt="mic" /></button>
         <input placeholder={value} />
+        <Link to={url}><button>검색</button></Link>
     </form>
 
 }

@@ -12,16 +12,16 @@ import Header from '../component/Header';
 // import reportWebVitals from '../reportWebVitals';
 // import "../static/fonts/fonts.css";
 
-const SearchPage = () => {
+const SearchPage = (props) => {
   // const query = useParams().keyword;
   return (
     <div>
-      <Header />
+      <Header voiceInput={props.voiceInput}/>
       <div className="Container">
         <Breadcrumbs />
         <SearchFilter />
         <SearchResult />
-        <ProductGrid keyword={useParams().keyword}/>
+        <ProductGrid keyword={useParams().keyword} voice={props.voice} voiceInput={props.voiceInput}/>
       </div>
       <footer>
           <p>Footer Area</p>

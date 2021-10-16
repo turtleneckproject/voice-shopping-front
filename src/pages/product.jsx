@@ -9,13 +9,14 @@ import TabMenuArea from "../component/TabMenuArea";
 import MainContent from "../component/MainContent";
 
 
+
 const ProductPage = ({location}) => {
     const [info, setInfo] = useState({});
 
     useEffect(()=>{
-        console.log("받아온 값: " , location.props);
-        setInfo(location.props);
-    },[location.props]);
+        console.log("받아온 값: " , location.state);
+        setInfo(location.state);
+    },[location.state]);
 
     return (
     <div>

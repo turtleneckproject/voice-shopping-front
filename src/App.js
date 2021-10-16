@@ -9,7 +9,6 @@ import {
   Route,
   Switch,
   Link,
-  Redirect
 } from "react-router-dom";
 import ScrollToTop from "./ScrollToTop";
 import JoinPage from "./pages/join";
@@ -22,6 +21,16 @@ import PayPage from "./pages/pay";
 
 
 class App extends Component {
+  state={
+    voice: "default"
+  };
+
+  handleVoiceInput = (input) => {
+    console.log("헤더로부터 들어온 값은: " + input);
+    this.setState({voice : input});
+  }
+
+
   render() {
     return (
       <BrowserRouter>
@@ -29,8 +38,8 @@ class App extends Component {
           <ScrollToTop>
             <Switch>
                 <Route exact path="/" component={ MainPage } />
-                <Route path="/search/:keyword" component={ SearchPage } />
-                <Route path="/product" component={ ProductPage } />
+                <Route path="/search/:keyword" render={() => <SearchPage voice={this.state.voice} voiceInput={this.handleVoiceInput}/>}/>
+                <Route path="/product" component={ProductPage} />
                 <Route path="/join" component={ JoinPage } />
                 <Route path="/cart" component={ CartPage } />
                 <Route path="/pay" component={ PayPage } />

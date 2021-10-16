@@ -2,9 +2,11 @@ import styles from "./Inner.module.css";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 
-export default function Inner(){
+const Inner = (props) => {
     return <nav className={styles.Inner}>
         <Logo />
-        <SearchBar />
+        <SearchBar voiceInput={props.voiceInput}/>
     </nav>
 }
+
+export default Inner;

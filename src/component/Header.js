@@ -2,11 +2,13 @@ import styles from "./Header.module.css";
 import Inner from "./Inner";
 import GroupNav from "./GroupNav";
 
-export default function Header() {
+const Header = (props) => {
     return (
         <div className={styles.Header}>
-            <Inner />
+            <Inner voiceInput={props.voiceInput}/>
             <GroupNav />
         </div>
     );
 }
+
+export default Header;
