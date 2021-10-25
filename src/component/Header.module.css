@@ -3,7 +3,7 @@
     height: 180px;
     object-fit: contain;
     position: sticky;
-    z-index: 999;
+    z-index: 99;
     top: 0;
     /* border-bottom: 1px solid #d2d2d2; */
     box-shadow: 0 0px 3px #dbdbdb;

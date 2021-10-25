@@ -11,7 +11,7 @@ const ProductGrid = (props) => {
         const fetchData = async () => {
             setLoading(true);
             try{
-                const response = await axios.get('https://voice-shopping-server.herokuapp.com/api/item', {
+                const response = await axios.get('https://springservertest.herokuapp.com/api/item', {
                     params: {keyword: props.keyword}});
                 setProducts(response.data);
             } catch(e){
@@ -21,6 +21,7 @@ const ProductGrid = (props) => {
         };
         fetchData();
     }, [props.keyword]);
+
 
     if(loading){
         return <div>불러오는 중...</div>

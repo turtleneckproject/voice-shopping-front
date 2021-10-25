@@ -1,0 +1,88 @@
+.modal_wrapper{
+  box-sizing: border-box;
+  position: fixed;
+  top: 200px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  outline: 0;
+}
+.modal_overlay{
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 999;
+  transition: all 0.5s
+}
+
+.modal_overlay_open{
+    opacity: 1;
+    animation: FadeIn .5s
+}
+
+.modal_overlay_close{
+    opacity:0;
+    pointer-events: none; 
+    animation: FadeOut .5s
+}
+
+.modal_inner{
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 0 40px 0 rgba(60, 60, 60, 0.3);
+    background-color: rgba(255,255,255,1);
+    border-radius: 20px;
+    width: 600px;
+    height: 300px;
+    top: 40%;
+    transform: translateY(-50%);
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.output_voice{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e78e4a;
+    padding: 30px;
+    word-break: break-all;
+    font-family: NotoSansKR-Medium;
+    font-size: 14px;
+}
+
+.output_voice img{
+    width: 22px;
+    margin: 0 10px 0 0;
+}
+
+@keyframes FadeIn {
+    0% {
+        opacity: 0;
+    }
+    1%{
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes FadeOut {
+    0% {
+        opacity:1
+    }
+    1% {
+        opacity:1;
+    }
+    100% {
+        opacity:0;
+    }
+}

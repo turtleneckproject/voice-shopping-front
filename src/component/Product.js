@@ -7,7 +7,6 @@ const Product = (props) => {
 
     const history = useHistory();
     useEffect(()=>{
-        console.log("테스트 구간:" + props.voice);
     }, [props.voice]);
 
     const price = props.info.lprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -46,7 +45,7 @@ const Product = (props) => {
             <div className="grid_product_name"><Link to="/product">{newTitle}</Link></div>
             <div className="grid_product_price">
                 <p className="grid_product_price_number">{price}</p>
-                <p>{props.voice}</p>
+                <p>원</p>
             </div>
         </div>
     );

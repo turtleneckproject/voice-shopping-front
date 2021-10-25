@@ -52,3 +52,21 @@
     margin: 0 0 0 20px;
     /* object-fit: contain; */
 }
+
+.search {
+    background:#ffb57c;
+    color:#fff;
+    border:none;
+    position:relative;
+    font-size:14px;
+    height: 30px;
+    width: 40px;
+    margin-right: 20px;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+}
+
+.search:hover{
+    opacity: 0.7;
+  }

@@ -24,7 +24,6 @@ const SearchBar = ({voiceInput}) => {
     }, [inputs, url, value, voiceInput]);
 
     const OnInputChange = (e) => {
-        console.log("입력값: " + e.target.value);
         setInputs(e.target.value);
     };
 
@@ -32,16 +31,18 @@ const SearchBar = ({voiceInput}) => {
         var newURL;
         if(query == `"상세보기"`){
             voiceInput("상세보기");
+            
             return;
         }
         newURL = "/search/" + query.substring( 1, query.length-1 )
+        
         setUrl(newURL);
     }
 
     return <form className="SearchBar">
-        <button className="mic_button" onMouseEnter={listen} onMouseLeave={stop}><img src={mic} alt="mic" /></button>
+        <button className="mic_button"><img src={mic} alt="mic" onMouseEnter={listen} onMouseLeave={stop} /></button>
         <input placeholder={value} />
-        <Link to={url}><button>검색</button></Link>
+        <Link to={url}><button className="search">검색</button></Link>
     </form>
 
 }
