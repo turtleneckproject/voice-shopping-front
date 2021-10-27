@@ -13,10 +13,11 @@ import SearchBar from '../component/SearchBar';
 // import reportWebVitals from '../reportWebVitals';
 // import "../static/fonts/fonts.css";
 
-const MainPage = ({msgInput}) => {
+const MainPage = (props) => {
 
   const voices = window.speechSynthesis.getVoices();
   const [msg, setMsg] = useState("안녕하십니까? 보이스 쇼핑몰에 오신것을 환영합니다. 찾으시는 상품명을 말씀해주세요.");
+  const [isSpeakDone, setIsSpeakDone] = useState(false);
 
   function btnRead(message) {
       speak( message, {
@@ -37,25 +38,29 @@ const MainPage = ({msgInput}) => {
       const prop = opt_prop || {}
 
       const speechMsg = new SpeechSynthesisUtterance()
-      speechMsg.rate = prop.rate || 1 // 속도: 0.1 ~ 10      
+      speechMsg.rate = prop.rate || 1.3 // 속도: 0.1 ~ 10      
       speechMsg.pitch = prop.pitch || 1 // 음높이: 0 ~ 2
       // speechMsg.lang = prop.lang
-      speechMsg.voice = voices.filter(function(voice) { return voice.name == 'Google 한국의'; })[0];
+      speechMsg.voice = voices.filter(function(voice) { return voice.name === 'Google 한국의'; })[0];
       speechMsg.text = text
+
+      speechMsg.onend = function(){
+        setIsSpeakDone(true);
+      }
 
       // SpeechSynthesisUtterance에 저장된 내용을 바탕으로 음성합성 실행
       window.speechSynthesis.speak(speechMsg)
   }
 
   useEffect(()=>{
-    msgInput(msg);
+    props.msgInput(msg);
     btnRead(msg);
   },[msg]);
 
   return (
     <div className="main_page">
       <div className="main_logo" ><Logo /></div>
-        <SearchBar />
+        <SearchBar voiceInput ={props.voiceInput} isSpeakDone={isSpeakDone}/>
     </div>
   );
 };

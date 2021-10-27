@@ -15,9 +15,9 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.3);
+  /* backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); */
   z-index: 999;
   transition: all 0.5s
 }
@@ -45,6 +45,7 @@
     transform: translateY(-50%);
     margin: 0 auto;
     padding: 40px 20px;
+    align-items: center;
 }
 
 .output_voice{
@@ -52,16 +53,24 @@
     justify-content: center;
     align-items: center;
     color: #e78e4a;
-    padding: 30px;
-    margin: auto;
-    word-break: break-all;
-    font-family: NotoSansKR-Medium;
+    padding-left: 30px;
+    padding-right: 30px;
+    /* word-break: break-all; */
+    font-family: NotoSansKR-Regular;
     font-size: 14px;
 }
 
 .output_voice img{
     width: 20px;
     margin: 0 10px 0 0;
+}
+
+.input_voice{
+    text-align: center;
+    margin-top: 60px;
+    font-family: NotoSansKR-Regular;
+    font-size: 38px;
+    color: #afafaf;
 }
 
 @keyframes FadeIn {

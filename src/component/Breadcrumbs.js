@@ -12,19 +12,19 @@ export default function Breadcrumbs(){
                 </li>
                 <li className="breadcrumbs_item">
                     <img src={arrow} alt="arrow" />
-                    <a href="index.html">식품</a>
+                    <a href="index.html">cat1</a>
                 </li>
                 <li className="breadcrumbs_item">
                     <img src={arrow} alt="arrow" />
-                    <a href="index.html">가공식품</a>
+                    <a href="index.html">cat2</a>
                 </li>
                 <li className="breadcrumbs_item">
                     <img src={arrow} alt="arrow" />
-                    <a href="index.html">버터/치즈/크림</a>
+                    <a href="index.html">cat3</a>
                 </li>
                 <li className="breadcrumbs_item">
                     <img src={arrow} alt="arrow" />
-                    <a href="index.html">버터</a>
+                    <a href="index.html">cat4</a>
                 </li>
             </ul>
         </div>

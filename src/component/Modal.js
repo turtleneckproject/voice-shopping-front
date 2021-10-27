@@ -27,6 +27,7 @@ function Modal(props) {
         <div tabIndex="0" className="modal_inner">
           {/* {closable && <button className="modal-close" onClick={close} >close</button>} */}
           <div className="output_voice"><img src={mic} alt="" />{props.msg}</div>
+          <div className="input_voice">" {props.voice} "</div>
         </div>
       </div>
     </div>

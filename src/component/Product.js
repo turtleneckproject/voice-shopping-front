@@ -11,11 +11,24 @@ const Product = (props) => {
 
     const price = props.info.lprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const newTitle = props.info.title.toString().replace(/(<([^>]+)>)/ig, "").replace(/&quot;/g, "").replace(/\"n/, "").replace(/&amp;/g, "");
+
+    useEffect(()=>{
+        if (props.idx === props.targetIdx){
+            console.log(props.idx+"번째 상품 선택됨")
+            props.setProduct({
+                set: 1,
+                idx: props.targetIdx,
+                title: newTitle,
+                price: price
+            });
+        }
+        else console.log(props.idx+"번째 상품 선택되지 않음")
+    },[]);
     
     return(
         <div className="product">
             <div className="product_image">
-                {props.voice === "상세보기" && history.push({
+                {props.voice === "상세보기"  && props.idx === 0 && history.push({
                     pathname:  `/product/${props.info.productId}`,
                     state:{
                         imgSrc: props.info.image,

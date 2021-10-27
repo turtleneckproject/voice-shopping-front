@@ -35,7 +35,7 @@ const ProductGrid = (props) => {
     return(
         <div className="product_grid">
             {products.map((product, index) => (
-                <Product idx={index} key={product.link} info={product} voice={props.voice} voiceInput={props.voiceInput}/>
+                <Product setProduct={props.setProduct} targetIdx={props.targetIdx} idx={index} key={product.link} info={product} voice={props.voice} voiceInput={props.voiceInput}/>
             ))}
         </div>
     );
