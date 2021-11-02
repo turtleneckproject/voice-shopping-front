@@ -7,22 +7,52 @@ import ProductSerialArea from "../component/ProductSerialArea";
 import ProductOrderArea from "../component/ProductOrderArea";
 import TabMenuArea from "../component/TabMenuArea";
 import MainContent from "../component/MainContent";
-const ProductPage = ({location}) => {
+import { useLocation } from "react-router";
+const ProductPage = (props) => {
     var voices = window.speechSynthesis.getVoices();
-    const [info, setInfo] = useState({});
+    const location = useLocation();
+    const [info, setInfo] = useState({
+        imgSrc: "",
+        title: "",
+        mallName: "",
+        id: 0,
+        price: 0,
+        maker: "",
+        brand: ""
+    });
+    const [msg, setMsg] = useState("");
+    const [isSet, setIsSet] = useState(false);
+    const [isSpeakDone, setIsSpeakDone] = useState(false); //음성출력이 끝났음을 알리는 변수
 
     useEffect(()=>{
         console.log("받아온 값: " , location.state);
-        setInfo(location.state);
+        setIsSet(true);
+        setInfo({
+            imgSrc: location.state.imgSrc,
+            title: location.state.title,
+            mallName: location.state.mallName,
+            id: location.state.id,
+            price: location.state.price,
+            maker: location.state.maker,
+            brand: location.state.brand
+        });
+        setMsg(location.state.title + "상품입니다. 가격은 " + location.state.price + `원입니다.해당상품을 장바구니에 담으려면 "담기"라고 말씀해주세요.`);
     },[location.state]);
 
     useEffect(()=>{
-        btnRead();
-    }, []);
+        if(isSet){
+            props.msgInput(msg);
+            btnRead();
+            setIsSet(false);
+        }
+        else{
+            console.log("음성 출력되지 않음")
+        }
+    }, [info, isSet]);
 
     const btnRead = (e) => {
 
-        speak(location.state.title + "상품입니다. 가격은 " + location.state.price + "원입니다." , {
+        speak(msg , {
             rate: 1.0,
             pitch: 1.0,
         })
@@ -44,16 +74,20 @@ const ProductPage = ({location}) => {
         speechMsg.voice = voices.filter(function(voice) { return voice.name == 'Google 한국의'; })[0];
         speechMsg.text = text
 
+        speechMsg.onend = function(){
+            setIsSpeakDone(true);
+        }
+
         // SpeechSynthesisUtterance에 저장된 내용을 바탕으로 음성합성 실행
         window.speechSynthesis.speak(speechMsg)
     }
     return (
     <div>
-        <Header />
+        <Header voiceInput={props.voiceInput} msg={msg} isSpeakDone={isSpeakDone} nextActionInput={props.nextActionInput}/>
         <div className="Container">
             <Breadcrumbs />
             <ProductSerialArea productId={info.id}/>
-            <ProductOrderArea productInfo={info}/>
+            <ProductOrderArea productInfo={info} nextAction={props.nextAction}/>
             <TabMenuArea />
             <MainContent />
         </div>

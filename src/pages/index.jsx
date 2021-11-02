@@ -17,11 +17,11 @@ const MainPage = (props) => {
 
   const voices = window.speechSynthesis.getVoices();
   const [msg, setMsg] = useState("안녕하십니까? 보이스 쇼핑몰에 오신것을 환영합니다. 찾으시는 상품명을 말씀해주세요.");
-  const [isSpeakDone, setIsSpeakDone] = useState(false);
+  const [isSpeakDone, setIsSpeakDone] = useState(false); //음성출력이 끝났음을 알리는 변수
 
   function btnRead(message) {
       speak( message, {
-          rate: 1.0,
+          rate: 1.2,
           pitch: 1.0,
           // lang: "ko-KR"
       })
@@ -60,7 +60,7 @@ const MainPage = (props) => {
   return (
     <div className="main_page">
       <div className="main_logo" ><Logo /></div>
-        <SearchBar voiceInput ={props.voiceInput} isSpeakDone={isSpeakDone}/>
+        <SearchBar voiceInput ={props.voiceInput} isSpeakDone={isSpeakDone} nextActionInput={props.nextActionInput}/>
     </div>
   );
 };

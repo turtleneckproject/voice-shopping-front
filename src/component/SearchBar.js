@@ -29,9 +29,37 @@ const SearchBar = (props) => {
         console.log("onResult 끝")
       },
       onEnd: () => { // 음성 입력이 완전히 끝났을 때 실행되는 부분
-        
-        // 검색어를 말했을 때 해당 검색어로 검색한 페이지 호출
-        history.push({pathname:url});
+        switch(value){
+            case "검색옵션": case "검색 옵션":
+                props.nextActionInput("change_search_option");
+                break;
+            case "정확도순": case "정확도 순":
+                props.nextActionInput("set_search_option_sim")
+                break;
+            case "날짜순": case "날짜 순":
+                props.nextActionInput("set_search_option_date")
+                break;
+            case "가격오름차순": case "가격 오름차순": case "가격오름차 순": case "가격 오름차 순":
+                props.nextActionInput("set_search_option_asc")
+                break;
+            case "가격내림차순": case "가격 내림차순": case "가격내림차 순": case "가격 내림차 순":
+                props.nextActionInput("set_search_option_dsc")
+                break;
+            case "가격듣기": case "가격 듣기":
+                props.nextActionInput("select_reading_items");
+                break;
+            case "상세듣기": case "상세 듣기":
+                props.nextActionInput("detail_info");
+                break;
+            case "담기":
+                props.nextActionInput("put_cart");
+                break;
+            default:
+                // 검색어를 말했을 때 해당 검색어로 검색한 페이지 호출
+                props.nextActionInput("search_by_keyword");
+                history.push({pathname:url});
+                break;
+        }
       }
     });
 
@@ -62,8 +90,7 @@ const SearchBar = (props) => {
 
     const updateURL = (query) => {
         var newURL;
-        if(query == `"상세보기"`){
-            props.voiceInput("상세보기");
+        if(query === `"상세보기"`){
             return;
         }
         newURL = "/search/" + query;

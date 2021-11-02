@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar";
 const Inner = (props) => {
     return <nav className={styles.Inner}>
         <Logo />
-        <SearchBar voiceInput={props.voiceInput}/>
+        <SearchBar voiceInput={props.voiceInput} isSpeakDone={props.isSpeakDone} nextActionInput={props.nextActionInput} searchOptInput={props.searchOptInput}/>
     </nav>
 }
 

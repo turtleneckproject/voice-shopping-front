@@ -23,10 +23,10 @@ import { Transition } from 'react-transition-group';
 
 class App extends Component {
   state={
-    voice: "듣고 있어요...",
+    voice: "듣고 있어요...", //사용자가 음성으로 입력한 데이터
     isPopupOpen: false,
-    msg: "" //사용자에게 출력될 메시지
-
+    msg: "", //사용자에게 출력될 메시지
+    nextAction: "", //사용자에게서 받아온 음성 결과에 따라 어떻게 동작할지 명시
   };
 
   openPopup = () => {
@@ -38,12 +38,17 @@ class App extends Component {
 
   // 각 페이지의 음성인식 part에서 받아온 음성데이터 세팅
   handleVoiceInput = (input) => {
-    console.log("헤더로부터 들어온 값은: " + input);
+    // console.log("헤더로부터 들어온 값은: " + input);
     this.setState({voice : input});
   }
 
   handleMsgInput = (input) =>{
     this.setState({msg: input});
+  }
+
+  handleNextActionInput = (input) => {
+    console.log(input);
+    this.setState({nextAction: input});
   }
 
   componentDidMount(){
@@ -75,9 +80,9 @@ class App extends Component {
           </Transition>
           <ScrollToTop>
             <Switch>
-                <Route exact path="/" render={() => <MainPage voiceInput={this.handleVoiceInput} msgInput={this.handleMsgInput}/>} />
-                <Route path="/search/:keyword" render={() => <SearchPage voice={this.state.voice} voiceInput={this.handleVoiceInput} msgInput={this.handleMsgInput}/> }/>
-                <Route path="/product" component={ProductPage} />
+                <Route exact path="/" render={() => <MainPage voiceInput={this.handleVoiceInput} msgInput={this.handleMsgInput} nextActionInput={this.handleNextActionInput}/>} />
+                <Route path="/search/:keyword" render={() => <SearchPage voice={this.state.voice} voiceInput={this.handleVoiceInput} msgInput={this.handleMsgInput} nextActionInput={this.handleNextActionInput} nextAction={this.state.nextAction}/> }/>
+                <Route path="/product" render={()=> <ProductPage voiceInput={this.handleVoiceInput} msgInput={this.handleMsgInput} nextActionInput={this.handleNextActionInput} nextAction={this.state.nextAction}/>} />
                 <Route path="/join" component={ JoinPage } />
                 <Route path="/cart" component={ CartPage } />
                 <Route path="/pay" component={ PayPage } />

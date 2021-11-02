@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 const Product = (props) => {
 
     const history = useHistory();
-    useEffect(()=>{
-    }, [props.voice]);
+    // useEffect(()=>{
+    // }, [props.voice]);
 
     const price = props.info.lprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     const newTitle = props.info.title.toString().replace(/(<([^>]+)>)/ig, "").replace(/&quot;/g, "").replace(/\"n/, "").replace(/&amp;/g, "");
@@ -28,7 +28,7 @@ const Product = (props) => {
     return(
         <div className="product">
             <div className="product_image">
-                {props.voice === "상세보기"  && props.idx === 0 && history.push({
+                {props.nextAction === "detail_info" && props.idx === 0 && history.push({
                     pathname:  `/product/${props.info.productId}`,
                     state:{
                         imgSrc: props.info.image,
@@ -41,7 +41,6 @@ const Product = (props) => {
                     }
                 })
                 }
-                
                 <Link to={{
                     pathname: `/product/${props.info.productId}`,
                     props:{

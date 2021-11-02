@@ -12,7 +12,10 @@ const ProductGrid = (props) => {
             setLoading(true);
             try{
                 const response = await axios.get('https://springservertest.herokuapp.com/api/item', {
-                    params: {keyword: props.keyword}});
+                    params: {
+                        keyword: props.keyword,
+                        option: props.option
+                    }});
                 setProducts(response.data);
             } catch(e){
                 console.log(e);
@@ -20,7 +23,7 @@ const ProductGrid = (props) => {
             setLoading(false);
         };
         fetchData();
-    }, [props.keyword]);
+    }, [props.keyword, props.option]);
 
 
     if(loading){
@@ -35,7 +38,7 @@ const ProductGrid = (props) => {
     return(
         <div className="product_grid">
             {products.map((product, index) => (
-                <Product setProduct={props.setProduct} targetIdx={props.targetIdx} idx={index} key={product.link} info={product} voice={props.voice} voiceInput={props.voiceInput}/>
+                <Product setProduct={props.setProduct} targetIdx={props.targetIdx} idx={index} key={product.link} info={product} voice={props.voice} nextAction={props.nextAction}/>
             ))}
         </div>
     );

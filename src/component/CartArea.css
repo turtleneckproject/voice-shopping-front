@@ -45,8 +45,8 @@ button.delete {
     border-width: 0.3px;
 }
 
-.cart_item_img {
-    width: 15%;
+.cart_item_img img{
+    width: 80px;
     padding: 30px;
 }
 
@@ -60,7 +60,7 @@ button.delete {
 }
 
 .cart_item_price{
-    width: 13%;
+    width: 11%;
     font-family: NotoSansKR-Regular;
     font-size: 18px;
 }
@@ -88,7 +88,7 @@ button.delete {
 
 .count_btn{
     /* display: flex; */
-    width: 12%;
+    width: 14%;
     margin: 0 auto;
     align-items: center;
     text-align: center;
