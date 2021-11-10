@@ -25,7 +25,9 @@ const LoginPage = (props) => {
                     params: {
                         userid: input
                     }});
+                console.log(response.data);
                 setPwdLength(response.data);
+                speakPwdChecking(response.data, true, 0);
             } catch(e){
                 console.log(e);
             }
@@ -33,7 +35,7 @@ const LoginPage = (props) => {
         fetchData();
     }
 
-    const checkPwd = (input, idx) => {
+    const checkPwd = (idx, input) => {
         const fetchData = async () => {
             try{
                 const response = await axios.get('https://springservertest.herokuapp.com/login/check', {
@@ -42,7 +44,14 @@ const LoginPage = (props) => {
                         index: idx,
                         input: input
                     }});
-                return(response.data);
+                    console.log("비밀번호 검증 결과: "+response.data);
+                if(response.data === 1){
+                    setPwdCheckCnt(pwdCheckCnt-1);
+                    speakPwdChecking(pwdLength, true, 0);
+                }
+                else if(response.data === -1){
+                    speakPwdChecking(pwdLength, false, idx);
+                }
             } catch(e){
                 console.log(e);
             }
@@ -54,16 +63,25 @@ const LoginPage = (props) => {
         return Math.floor(Math.random()*length) + 1;
     }
 
-    const speakPwdChecking = () => {
-        if(pwdLength == -1) setNextField("no_id_exist");
+    const speakPwdChecking = (pwdLength, isPass, falseIdx) => {
+        if(pwdLength === -1){
+            setSpeakOnce(false);
+            setMsg("해당 아이디가 존재하지 않습니다. 다시 말씀해주세요.");
+            setNextField("id");
+            setSpeakOnce(true);
+        }
         else{
             if(pwdCheckCnt > 0){
-                setNextField("continue");
                 setSpeakOnce(false);
                 var rndNum = rand(pwdLength);
-                console.log("랜덤 인덱스: "+rndNum);
-                setMsg("비밀번호의 "+rndNum+"번째 글자를 말씀해주세요.")
-                setRndIdx(rndNum);
+                if(isPass){
+                    setMsg("비밀번호의 "+rndNum+"번째 글자를 말씀해주세요.");
+                    setRndIdx(rndNum);
+                } 
+                else{
+                    setMsg("비밀번호가 일치하지 않습니다. 비밀번호의 "+falseIdx+"번째 글자를 말씀해주세요.");
+                    setRndIdx(falseIdx);
+                } 
                 setNextField("pwd")
                 setSpeakOnce(true);
             }
@@ -79,26 +97,12 @@ const LoginPage = (props) => {
                     console.log("아이디: " + tempID);
                     setId(tempID);
                     getPwdLength(tempID);
-                    speakPwdChecking();
+                    // while(pwdLength === 0){};
+                    // speakPwdChecking();
                     // setMsg("알파벳, 숫자 혹은 둘을 조합한 비밀번호를 말씀해주세요.");
                     break;
                 case "pwd":
-                    var result = checkPwd(fieldValue, rndIdx, props.voice);
-                    if(result === 1){
-                        setPwdCheckCnt(pwdCheckCnt-1);
-                        speakPwdChecking();
-                    }
-                    else{
-                        setMsg("비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
-                        setSpeakOnce(true);
-                        speakPwdChecking();
-                    }
-                    break;
-                case "no_id_exist":
-                    setSpeakOnce(false);
-                    setMsg("해당 아이디가 존재하지 않습니다. 다시 말씀해주세요.");
-                    setNextField("id");
-                    setSpeakOnce(true);
+                    checkPwd(rndIdx, props.voice);
                     break;
                 case "done":
                     break;
@@ -107,7 +111,7 @@ const LoginPage = (props) => {
             }    
         }
         // setCnt(cnt+1);
-    }, [fieldValue, nextField]);
+    }, [fieldValue]);
 
     //5번의 비밀번호 확인을 모두 통과했을 때
     useEffect(()=>{
@@ -127,9 +131,17 @@ const LoginPage = (props) => {
     }, [speakOnce]);
 
     useEffect(()=>{
-        console.log(pwdLength);
-        console.log(nextField);
-    }, [pwdLength, nextField]);
+        console.log("pwdLength 업데이트 됨: "+pwdLength);
+    }, [pwdLength]);
+    useEffect(()=>{
+        console.log("nextField 업데이트 됨: "+nextField);
+    }, [nextField]);
+    useEffect(()=>{
+        console.log("rndIdx 업데이트 됨: "+rndIdx);
+    }, [rndIdx]);
+    useEffect(()=>{
+        console.log("pwdCheckCnt 업데이트 됨: "+pwdCheckCnt);
+    }, [pwdCheckCnt]);
 
     const btnRead = (e) => {
 
