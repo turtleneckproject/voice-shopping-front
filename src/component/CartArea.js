@@ -56,7 +56,8 @@ const CartArea = (props) => {
                         <button class="delete"><img src="img/remove_cart.png" alt="제품이미지" /></button>
                     </th>
                 </tr>{/* 첫번째 줄 끝 */}
-                <tr className='cart_item'>{/*두번째 줄 시작 */}
+                {/*두번째 줄 시작 */}
+                {/* <tr className='cart_item'>
                     <th className="cart_item_img"><img src="img/cart_sample_2.jpg" alt="제품이미지"/></th>
                     <th className="cart_item_dsc"><strong>Garmin 포어러너 45 GPS 스마트 워치 42mm 코치 트레이닝 플랜 기능 블랙</strong></th>
                     <th className="count_btn">
@@ -78,7 +79,7 @@ const CartArea = (props) => {
                     <th className="cart_item_del">
                         <button class="delete"><img src="img/remove_cart.png" alt="제품이미지" /></button>
                     </th>
-                </tr>
+                </tr> */}
             </table>
             <div class="side">
                 <strong>결제 예정금액</strong>

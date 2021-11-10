@@ -5,7 +5,15 @@ import SearchBar from "./SearchBar";
 const Inner = (props) => {
     return <nav className={styles.Inner}>
         <Logo />
-        <SearchBar voiceInput={props.voiceInput} isSpeakDone={props.isSpeakDone} nextActionInput={props.nextActionInput} searchOptInput={props.searchOptInput}/>
+        <SearchBar 
+            nowPage={props.nowPage} 
+            voiceInput={props.voiceInput} 
+            isSpeakDone={props.isSpeakDone} 
+            nextActionInput={props.nextActionInput} 
+            searchOptInput={props.searchOptInput} 
+            joinFieldValueInput={props.joinFieldValueInput}
+            loginFieldValueInput={props.loginFieldValueInput}
+        />
     </nav>
 }
 

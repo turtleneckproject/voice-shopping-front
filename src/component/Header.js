@@ -17,7 +17,15 @@ const Header = (props) => {
 
     return (
         <div className={styles.Header}>
-            <Inner voiceInput={props.voiceInput} isSpeakDone={props.isSpeakDone} nextActionInput={props.nextActionInput} searchOptInput={props.searchOptInput}/>
+            <Inner 
+                nowPage={props.nowPage} 
+                voiceInput={props.voiceInput} 
+                isSpeakDone={props.isSpeakDone} 
+                nextActionInput={props.nextActionInput} 
+                searchOptInput={props.searchOptInput} 
+                joinFieldValueInput={props.joinFieldValueInput}
+                loginFieldValueInput={props.loginFieldValueInput}
+                />
             <GroupNav />
             {/* <button type="button" onClick={openPopup}>test</button>
             {isPopupOpen && 

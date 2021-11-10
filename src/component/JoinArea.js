@@ -1,6 +1,24 @@
+import React, { useEffect, useState } from 'react';
 import './JoinArea.css';
 
-export default function JoinArea(){
+const JoinArea = (props) => {
+    const [id, setId] = useState("");
+    const [pwd, setPwd] = useState("");
+
+    const handleId = ({target: {value}}) => {
+        setId(value);
+    }
+    const handlePwd = ({target: {value}}) => {
+        setPwd(value);
+    }
+
+    useEffect(()=>{
+        props.joinFormInput({
+            id: id,
+            pwd: pwd
+        })
+    }, [id, pwd])
+
     return (
         <div className="join_area">
             <div className="join_title">
@@ -19,7 +37,11 @@ export default function JoinArea(){
                     <strong className="infotxt">아이디</strong>
                 </div>
                 <div className="form_group">
-                    <input className="input_id" />
+                    <input 
+                        name="input_id"
+                        value={id}
+                        onChange={handleId}
+                    />
                 </div>
             </div>
             <div className="form_item pw">
@@ -27,7 +49,12 @@ export default function JoinArea(){
                     <strong className="infotxt">비밀번호</strong>
                 </div>
                 <div className="form_group">
-                    <input type="password" className="input_pw" />
+                    <input 
+                        type="password" 
+                        name="input_pw" 
+                        value={pwd}
+                        onChange={handlePwd}
+                    />
                 </div>
             </div>
             <div className="form_item pw">
@@ -73,8 +100,10 @@ export default function JoinArea(){
                 </div>
             </div>
             <div className="join_btn_area">
-                <button className="join_btn">가입하기</button>
+                <button className="join_btn" onClick={() => props.readyInput(true)}>가입하기</button>
             </div>
         </div>
     );
 }
+
+export default JoinArea;

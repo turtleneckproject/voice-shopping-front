@@ -9,12 +9,13 @@ import '../index.css';
 import '../css/Mainpage.css'
 import Logo from '../component/Logo';
 import SearchBar from '../component/SearchBar';
+import { useHistory } from "react-router";
 // import App from '../App';
 // import reportWebVitals from '../reportWebVitals';
 // import "../static/fonts/fonts.css";
 
 const MainPage = (props) => {
-
+  const history= useHistory();
   const voices = window.speechSynthesis.getVoices();
   const [msg, setMsg] = useState("안녕하십니까? 보이스 쇼핑몰에 오신것을 환영합니다. 찾으시는 상품명을 말씀해주세요.");
   const [isSpeakDone, setIsSpeakDone] = useState(false); //음성출력이 끝났음을 알리는 변수
@@ -53,12 +54,15 @@ const MainPage = (props) => {
   }
 
   useEffect(()=>{
+    props.voiceInput("");
     props.msgInput(msg);
     btnRead(msg);
   },[msg]);
 
   return (
     <div className="main_page">
+      {props.nextAction === "join_member" && history.push({pathname: `/join`})}
+      {props.nextAction === "login" && history.push({pathname: `/login`})}
       <div className="main_logo" ><Logo /></div>
         <SearchBar voiceInput ={props.voiceInput} isSpeakDone={isSpeakDone} nextActionInput={props.nextActionInput}/>
     </div>
