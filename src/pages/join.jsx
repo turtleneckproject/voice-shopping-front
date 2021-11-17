@@ -16,29 +16,26 @@ const JoinPage = (props) => {
         id: "",
         pwd: ""
     })
-    const [msg, setMsg] = useState("회원가입을 시작합니다. 보안을 위해 이어폰 착용을 권장합니다. 모든 글자의 대소문자는 구분하지 않습니다. 사용할 아이디를 말씀해주세요. ");
+    const [msg, setMsg] = useState("회원가입을 시작합니다. 보안을 위해 이어폰 착용을 권장하며, 모든 글자의 대소문자는 구분하지 않습니다. 사용할 아이디를 말씀해주세요. ");
     const [isSpeakDone, setIsSpeakDone] = useState(false); //음성출력이 끝났음을 알리는 변수
     const [speakOnce, setSpeakOnce] = useState(true);
-    const [ready, setReady] = useState(false); //버튼 이벤트를 위한 임시 값
     const [fieldValue, setFieldValue] = useState(""); //음성인식으로 받아온 raw 데이터
     const [nextField, setNextField] = useState("id"); // 필드 입력 이동을 위한 카운터
     const [nextAction, setNextAction] = useState("");
     const [joinSuccess, setJoinSuccess] = useState(false);
 
     const handleFormInput = (input) => {
-        // console.log(input);
         setJoinForm({
             id: input.id,                                                                                                                                                                                                                                                                                                                                                                                                                       
             pwd: input.pwd
         });
-        // console.log(joinForm);
     }
 
     const handleJoinFieldValueInput = (input) => {
         setFieldValue(input);
     }
 
-     const callJoinApi = (id, pwd) => {
+    const callJoinApi = (id, pwd) => {
         const fetchData = async () => {
             try{
                 const response = await axios.post('https://springservertest.herokuapp.com/register', {
@@ -64,64 +61,23 @@ const JoinPage = (props) => {
         fetchData();
     }
 
-    // async function callJoinApi(id, pwd){
-    //     const fetchData = async () =>{
-    //         try{
-    //             const response = await axios.post('https://springservertest.herokuapp.com/register', {
-    //                 id: id,
-    //                 pwd: pwd
-    //                 });
-    //             console.log(response.data);
-    //             const result = response.data;
-    //             if(result === 1){
-    //                 setMsg("회원가입이 완료되었습니다. 메인페이지로 돌아갑니다.");
-    //                 setJoinSuccess(true);
-    //             }
-    //             else if(result === -1){
-    //                 setMsg("이미 등록된 아이디입니다. 사용할 아이디를 다시 말씀해주세요.");
-    //                 setNextField("id");
-    //             }
-    //         } catch(e){
-    //             console.log(e);
-    //         }
-    //     };
-    //     fetchData();
-    // }
-
     const convertToJson = (input) => {
         let jsonData = JSON.stringify(input);
         console.log(jsonData);
     }
 
-    // useEffect(()=>{
-    //     props.msgInput("JoinPage");
-    // },[]);
+    const convertStr = (input) => {
+        var resultStr = "";
+        var strLen = input.length;
 
-    // useEffect(() => {
-    //     switch(props.nextAction){
-    //         default:
-    //             break;
-    //     }
-
-    // },[props.nextAction]);
-
-    // useEffect(()=>{
-    //     if(ready){
-    //         setReady(false);
-    //         const fetchData = async () => {
-    //             try{
-    //                 const response = await axios.post('https://springservertest.herokuapp.com/register', {
-    //                     id: joinForm.id,
-    //                     pwd: joinForm.pwd
-    //                     });
-    //                 console.log(response.data);
-    //             } catch(e){
-    //                 console.log(e);
-    //             }
-    //         };
-    //         fetchData();
-    //     }
-    // }, [ready, joinForm]);
+        for(var i=0; i<strLen; i++){
+            var tmp = input.substr(i,1);
+            if(tmp == ';') resultStr += tmp;
+            else resultStr += (tmp + ';');
+        }
+        console.log(resultStr);
+        return resultStr;
+    }
 
     useEffect(()=>{
         console.log("저장된 아이디: " + joinForm.id);
@@ -138,7 +94,6 @@ const JoinPage = (props) => {
                             setMsg("사용하실 비밀번호를 말씀해주세요.");
                             setNextField("pwd");
                             setSpeakOnce(true);
-                            // setNextAction("normal");
                             break;
                         case "again":
                             setSpeakOnce(false);
@@ -147,11 +102,11 @@ const JoinPage = (props) => {
                             break;
                         case "normal":
                             setSpeakOnce(false);
-                            // console.log(fieldValue);
                             var tempID = (props.voice).replace(/(\s*)/g, "").toLowerCase();
+                            var tempID2 = convertStr(tempID);
                             console.log("아이디: " +tempID);
                             setJoinId(tempID);
-                            setMsg("입력된 아이디는 "+tempID+`입니다. 맞다면 "계속", 다시 입력하려면 "다시입력"이라고 말씀해주세요.`);
+                            setMsg(`입력된 아이디는 "`+tempID2+`" 입니다. 맞다면 "계속", 다시 입력하려면 "다시입력"이라고 말씀해주세요.`);
                             setSpeakOnce(true);
                             break;
                         default:
@@ -175,20 +130,15 @@ const JoinPage = (props) => {
                         case "normal":
                             setSpeakOnce(false);
                             var tempPWD = (props.voice).replace(/(\s*)/g, "").toLowerCase();
+                            var tempPWD2 = convertStr(tempPWD);
                             console.log("비밀번호: " +tempPWD);
                             setJoinPwd(tempPWD);
-                            setMsg("입력된 비밀번호는 "+tempPWD+`입니다. 맞다면 "계속", 다시 입력하려면 "다시입력"이라고 말씀해주세요.`);
+                            setMsg("입력된 비밀번호는 "+tempPWD2+`입니다. 맞다면 "계속", 다시 입력하려면 "다시입력"이라고 말씀해주세요.`);
                             setSpeakOnce(true);
                             break;
                         default:
                             break;
                     }
-                    // setSpeakOnce(false);
-                    // console.log("비밀번호: " + fieldValue.replace(/(\s*)/g, "").toLowerCase());
-                    // setJoinPwd(fieldValue.replace(/(\s*)/g, "").toLowerCase());
-                    // setNextField("done");
-                    // setJoinForm({id: joinId, pwd: fieldValue.replace(/(\s*)/g, "").toLowerCase()});
-                    // // setSpeakOnce(true);
                     break;
                 case "done":
                     break;
@@ -257,7 +207,7 @@ const JoinPage = (props) => {
         <div>
             <Header nowPage={"JoinPage"} voiceInput={props.voiceInput} nextActionInput={props.nextActionInput} isSpeakDone={isSpeakDone} joinFieldValueInput={handleJoinFieldValueInput}/>
             <div className="Container">
-                <JoinArea joinFormInput={handleFormInput} readyInput={setReady}/*버튼이벤트용 임시 값*/ />
+                <JoinArea joinFormInput={handleFormInput} />
             </div>
             <footer>
                 <p>Footer Area</p>

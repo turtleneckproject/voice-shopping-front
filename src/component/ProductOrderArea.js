@@ -16,14 +16,14 @@ const ProductOrderArea = (props) => {
 
     return(
         <div className="product_order_area">
-            {props.nextAction === "put_cart" && history.push({
+            {/* {props.nextAction === "put_cart" && history.push({
                 pathname: `/cart`,
                 state: {
                     imgSrc: info.imgSrc,
                     title: info.title,
                     price: info.price
                 }
-            })}
+            })} */}
             <div class="product_img"><img src={info.imgSrc} alt="상품 이미지" /></div>
             <div class="product_info_area">
                 <div class="product_rate_and_order_area">

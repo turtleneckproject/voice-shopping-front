@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useSpeechRecognition } from "react-speech-kit";
 import "./SearchBar.css";
 import mic from "../img/voice_mic.png";
-import { prop } from "cheerio/lib/api/attributes";
 
 const SearchBar = (props) => {
   const history = useHistory();
@@ -36,8 +35,8 @@ const SearchBar = (props) => {
     onEnd: () => {
       // 음성 입력이 완전히 끝났을 때 실행되는 부분
       switch (nowPage){ //현재 어떤 페이지에서 작업중인지 확인
-        case "LoginPage": //로그인 
-        props.loginFieldValueInput("");
+        case "LoginPage": //로그인
+          props.loginFieldValueInput("");
           props.loginFieldValueInput(value); //음성으로 입력받은 값을 로그인 페이지에 보내준다.
           break;
         case "JoinPage": //회원가입 페이지
@@ -51,6 +50,15 @@ const SearchBar = (props) => {
             default:
               props.nextActionInput("normal");
               props.joinFieldValueInput(value); //음성으로 입력받은 값을 회원가입 페이지에 보내준다.
+              break;
+          }
+          break;
+        case "ProductPage":
+          switch(value){
+            case "담기":
+              props.nextActionInput("put_cart");
+              break;
+            default:
               break;
           }
           break;
@@ -83,9 +91,6 @@ const SearchBar = (props) => {
               break;
             case "상세듣기": case "상세 듣기":
               props.nextActionInput("detail_info");
-              break;
-            case "담기":
-              props.nextActionInput("put_cart");
               break;
             default:
               // 검색어를 말했을 때 해당 검색어로 검색한 페이지 호출
@@ -156,8 +161,7 @@ const SearchBar = (props) => {
 
   //음성 입력이 들어오지 않을 때 실행되는 부분
   useEffect(() => {
-    if (isVoiceDone) {
-      //음성 입력이 들어오지 않는 상황에서만 실행
+    if (isVoiceDone && (value !== "")) {// 음성이 입력된 적이 있고, 음성 입력이 들어오지 않는 상황일 때
       setTimeout(function () {
         // 3초동안 카운트를 센다.
         console.log("음성 입력 없이 3초가 지났습니다.");

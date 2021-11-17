@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Breadcrumbs from "../component/Breadcrumbs";
 import Header from "../component/Header";
 import '../component/Container.css';
@@ -22,11 +23,35 @@ const ProductPage = (props) => {
     });
     const [msg, setMsg] = useState("");
     const [isSet, setIsSet] = useState(false);
+    const [speakOnce, setSpeakOnce] = useState(false);
     const [isSpeakDone, setIsSpeakDone] = useState(false); //음성출력이 끝났음을 알리는 변수
 
+    // 현재 상품을 장바구니에 추가
+    const addCart = () => {
+        const fetchData = async () => {
+            try{
+                const response = await axios.post('https://springservertest.herokuapp.com/basket/plusitem', {
+                    customer: props.loginID,
+                    title: info.title,
+                    image: info.imgSrc,
+                    price: info.price,
+                    pid: info.id,
+                    num: 1
+                    });
+                // console.log(response.data);
+                console.log("장바구니에 추가 완료");
+                setMsg(`상품이 장바구니에 추가 되었습니다. 장바구니로 이동하시려면 "이동"이라고 말씀해주세요.`);
+                setSpeakOnce(true);
+            } catch(e){
+                console.log(e);
+            }
+        };
+        fetchData();
+    }
+
+    // 이전 페이지에서 넘겨준 상품정보를 저장
     useEffect(()=>{
         console.log("받아온 값: " , location.state);
-        setIsSet(true);
         setInfo({
             imgSrc: location.state.imgSrc,
             title: location.state.title,
@@ -37,18 +62,29 @@ const ProductPage = (props) => {
             brand: location.state.brand
         });
         setMsg(location.state.title + "상품입니다. 가격은 " + location.state.price + `원입니다.해당상품을 장바구니에 담으려면 "담기"라고 말씀해주세요.`);
+        setSpeakOnce(true);
     },[location.state]);
 
     useEffect(()=>{
-        if(isSet){
+        switch(props.nextAction){
+            case "put_cart": // "담기"가 인식될 경우 장바구니에 추가하는 api 호출
+                addCart();
+                break;
+            default:
+                break;
+        }
+    }, [props.nextAction]);
+
+    useEffect(()=>{
+        if(speakOnce){
             props.msgInput(msg);
             btnRead();
-            setIsSet(false);
-        }
-        else{
+            setSpeakOnce(false);
+          }
+          else{
             console.log("음성 출력되지 않음")
-        }
-    }, [info, isSet]);
+          }
+    }, [speakOnce]);
 
     const btnRead = (e) => {
 
@@ -83,7 +119,7 @@ const ProductPage = (props) => {
     }
     return (
     <div>
-        <Header voiceInput={props.voiceInput} msg={msg} isSpeakDone={isSpeakDone} nextActionInput={props.nextActionInput}/>
+        <Header nowPage={"ProductPage"} voiceInput={props.voiceInput} msg={msg} isSpeakDone={isSpeakDone} nextActionInput={props.nextActionInput}/>
         <div className="Container">
             <Breadcrumbs />
             <ProductSerialArea productId={info.id}/>

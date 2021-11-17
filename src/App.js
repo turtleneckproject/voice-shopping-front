@@ -18,10 +18,11 @@ import { Transition } from "react-transition-group";
 
 class App extends Component {
   state = {
-    voice: "듣고 있어요...", //사용자가 음성으로 입력한 데이터
+    voice: "", //사용자가 음성으로 입력한 데이터
     isPopupOpen: false,
     msg: "", //사용자에게 출력될 메시지
     nextAction: "", //사용자에게서 받아온 음성 결과에 따라 어떻게 동작할지 명시
+    loginID: "test", // 로그인 된 계정의 ID
   };
 
   openPopup = () => {
@@ -38,13 +39,18 @@ class App extends Component {
   };
 
   handleMsgInput = (input) => {
-    this.setState({ msg: input });
+    var msg = input.toString().replace(/\;/g,'');
+    this.setState({ msg: msg });
   };
 
   handleNextActionInput = (input) => {
     // console.log(input);
     this.setState({ nextAction: input });
   };
+
+  handleLoginIDInput = (input) => {
+    this.setState({loginID: input});
+  }
 
   componentDidMount() {
     setTimeout(() => {
@@ -110,6 +116,7 @@ class App extends Component {
                     msgInput={this.handleMsgInput}
                     nextActionInput={this.handleNextActionInput}
                     nextAction={this.state.nextAction}
+                    loginID={this.state.loginID}
                   />
                 )}
               />

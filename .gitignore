@@ -18,4 +18,8 @@ psd
 thumb
 sketch
 
+src/pages/cart.jsx
+src/pages/pay.jsx
+src/component/CartArea.js
+
 # End of https://www.toptal.com/developers/gitignore/api/react

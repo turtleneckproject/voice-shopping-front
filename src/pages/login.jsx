@@ -8,15 +8,15 @@ import LoginArea from '../component/LoginArea';
 const LoginPage = (props) => {
 
     var voices = window.speechSynthesis.getVoices();
-    const [msg, setMsg] = useState("로그인을 시작합니다. 아이디를 말씀해주세요. ");
+    const [msg, setMsg] = useState("로그인을 시작합니다. 보안을 위해 이어폰 착용을 권장하며, 모든 글자의 대소문자는 구분하지 않습니다. 아이디를 말씀해주세요. ");
     const [id, setId] = useState("");
     const [pwdLength, setPwdLength] = useState(0);
-    const [pwdCheckCnt, setPwdCheckCnt] = useState(5);
-    const [rndIdx, setRndIdx] = useState(-1);
+    const [pwdCheckCnt, setPwdCheckCnt] = useState(3); // 통과해야 할 비밀번호 질문의 count
+    const [rndIdx, setRndIdx] = useState({first: -1, second: -1}); // 랜덤으로 물어볼 비밀번호의 인덱스
     const [isSpeakDone, setIsSpeakDone] = useState(false); //음성출력이 끝났음을 알리는 변수
     const [speakOnce, setSpeakOnce] = useState(true);
-    const [fieldValue, setFieldValue] = useState("");
-    const [nextField, setNextField] = useState("id");
+    const [fieldValue, setFieldValue] = useState(""); // 음성인식 모듈에서 넘어온 음성 데이터 값
+    const [nextField, setNextField] = useState("id"); // 현재 작업 구간을 나타내는 커서
 
     const getPwdLength = (input) => {
         const fetchData = async () => {
@@ -35,22 +35,67 @@ const LoginPage = (props) => {
         fetchData();
     }
 
-    const checkPwd = (idx, input) => {
+    // 비밀번호 한글자씩 검증하는 과정
+    // const checkPwd = (idx, input) => {
+    //     const fetchData = async () => {
+    //         try{
+    //             const response = await axios.get('https://springservertest.herokuapp.com/login/check', {
+    //                 params: {
+    //                     userid: id,
+    //                     index: idx,
+    //                     input: input
+    //                 }});
+    //                 console.log("비밀번호 검증 결과: "+response.data);
+    //             if(response.data === 1){
+    //                 setPwdCheckCnt(pwdCheckCnt-1);
+    //                 speakPwdChecking(pwdLength, true, 0);
+    //             }
+    //             else if(response.data === -1){
+    //                 speakPwdChecking(pwdLength, false, idx);
+    //             }
+    //         } catch(e){
+    //             console.log(e);
+    //         }
+    //     };
+    //     fetchData();
+    // }
+
+    //랜덤 인덱스 2개에 대한 비밀번호 검증
+    const checkPwd = (idx1, idx2, input) => {
         const fetchData = async () => {
+
+            //음성 입력 값의 공백제거, 소문자화, 각각의 글자 2개로 쪼개는 작업
+            var str = input.replace(/(\s*)/g, "").toLowerCase();
+            var ch1 = str.substr(0,1);
+            var ch2 = str.substr(1,1);
+
             try{
-                const response = await axios.get('https://springservertest.herokuapp.com/login/check', {
+                //첫번째 글자 검증
+                const response1 = await axios.get('https://springservertest.herokuapp.com/login/check', {
                     params: {
                         userid: id,
-                        index: idx,
-                        input: input
+                        index: idx1,
+                        input: ch1
                     }});
-                    console.log("비밀번호 검증 결과: "+response.data);
-                if(response.data === 1){
-                    setPwdCheckCnt(pwdCheckCnt-1);
-                    speakPwdChecking(pwdLength, true, 0);
+                    console.log("1차 비밀번호 검증 결과: "+response1.data);
+                if(response1.data === 1){ //첫번째 글자 통과시 두번째 글자 검증
+                    const response2 = await axios.get('https://springservertest.herokuapp.com/login/check', {
+                    params: {
+                        userid: id,
+                        index: idx2,
+                        input: ch2
+                    }});
+                    console.log("2차 비밀번호 검증 결과: "+response2.data);
+                    if(response2.data === 1){ //두번째 글자까지 통과하면 카운터 1 감소시키고 검증 작업 반복
+                        setPwdCheckCnt(pwdCheckCnt-1);
+                        speakPwdChecking(pwdLength, true, -1, -1);
+                    }
+                    else{ //두번째 글자 통과 실패 시 같은 인덱스로 재검증
+                        speakPwdChecking(pwdLength, false, idx1, idx2);
+                    }
                 }
-                else if(response.data === -1){
-                    speakPwdChecking(pwdLength, false, idx);
+                else{ //첫번째 글자 통과 실패 시  같은 인덱스로 재검증
+                    speakPwdChecking(pwdLength, false, idx1, idx2);
                 }
             } catch(e){
                 console.log(e);
@@ -59,30 +104,38 @@ const LoginPage = (props) => {
         fetchData();
     }
 
-    const rand = (length) =>{
-        return Math.floor(Math.random()*length) + 1;
+    const rand = (length, checkIdx) =>{
+        var idx;
+        do{
+            idx = Math.floor(Math.random()*length) + 1;
+        }
+        while (idx == checkIdx)
+        return idx;
     }
 
-    const speakPwdChecking = (pwdLength, isPass, falseIdx) => {
-        if(pwdLength === -1){
+    // 랜덤 인덱스를 생성하여 사용자에게 비밀번호 글자를 말하도록 고지
+    const speakPwdChecking = (pwdLength, isPass, falseIdx1, falseIdx2) => {
+        if(pwdLength === -1){ // 서버에 없는 아이디를 말했을 경우
             setSpeakOnce(false);
             setMsg("해당 아이디가 존재하지 않습니다. 다시 말씀해주세요.");
-            setNextField("id");
+            setNextField("id"); //id 입력과정으로 돌아감
             setSpeakOnce(true);
         }
         else{
-            if(pwdCheckCnt > 0){
+            if(pwdCheckCnt > 0){ // 카운터가 0이상일 때
                 setSpeakOnce(false);
-                var rndNum = rand(pwdLength);
-                if(isPass){
-                    setMsg("비밀번호의 "+rndNum+"번째 글자를 말씀해주세요.");
-                    setRndIdx(rndNum);
+                //랜덤 인덱스 2개 생성
+                var rndNum1 = rand(pwdLength, -1);
+                var rndNum2 = rand(pwdLength, rndNum1);
+                if(isPass){ // 이전 검증을 통과했을 때 -> 랜덤 생성한 인덱스 사용
+                    setMsg("비밀번호의 "+rndNum1+"번째 글자와 " + rndNum2+"번째 글자를 순서대로 말씀해주세요.");
+                    setRndIdx({first: rndNum1, second: rndNum2});
                 } 
-                else{
-                    setMsg("비밀번호가 일치하지 않습니다. 비밀번호의 "+falseIdx+"번째 글자를 말씀해주세요.");
-                    setRndIdx(falseIdx);
+                else{ //이전 검증을 통과하지 못했을 때 -> 이전 인덱스를 그대로 사용
+                    setMsg("비밀번호가 일치하지 않습니다. 비밀번호의 "+falseIdx1+"번째 글자와 " + falseIdx2+"번째 글자를 순서대로 말씀해주세요.");
+                    setRndIdx({first: falseIdx1, second: falseIdx2});
                 } 
-                setNextField("pwd")
+                setNextField("pwd") // 비밀번호 입력 과정으로 넘어감
                 setSpeakOnce(true);
             }
         }
@@ -91,20 +144,18 @@ const LoginPage = (props) => {
     useEffect(()=>{
         if(fieldValue !== ""){
             switch(nextField){
-                case "id":
+                case "id": //아이디 입력과정
                     setSpeakOnce(false);
                     var tempID = (props.voice).replace(/(\s*)/g, "").toLowerCase();
                     console.log("아이디: " + tempID);
                     setId(tempID);
                     getPwdLength(tempID);
-                    // while(pwdLength === 0){};
-                    // speakPwdChecking();
-                    // setMsg("알파벳, 숫자 혹은 둘을 조합한 비밀번호를 말씀해주세요.");
                     break;
-                case "pwd":
-                    checkPwd(rndIdx, props.voice);
+                case "pwd": //비밀번호 입력과정
+                    checkPwd(rndIdx.first, rndIdx.second, props.voice);
                     break;
-                case "done":
+                case "done": //로그인 성공 시
+                    alert("로그인 성공");
                     break;
                 default:
                     break;
@@ -113,10 +164,14 @@ const LoginPage = (props) => {
         // setCnt(cnt+1);
     }, [fieldValue]);
 
-    //5번의 비밀번호 확인을 모두 통과했을 때
+    //3번의 비밀번호 확인을 모두 통과했을 때
     useEffect(()=>{
-        if(pwdCheckCnt === 0)
-        alert("로그인 성공");
+        if(pwdCheckCnt === 0){
+            setMsg("로그인이 완료되었습니다.");
+            setNextField("done");
+            setSpeakOnce(true);
+            setFieldValue("done");
+        }
     }, [pwdCheckCnt]);
     
     useEffect(()=>{
@@ -142,11 +197,14 @@ const LoginPage = (props) => {
     useEffect(()=>{
         console.log("pwdCheckCnt 업데이트 됨: "+pwdCheckCnt);
     }, [pwdCheckCnt]);
+    useEffect(()=>{
+        console.log("isSpeakDone 업데이트 됨: "+isSpeakDone);
+    }, [isSpeakDone]);
+
 
     const btnRead = (e) => {
-
         speak(msg , {
-            rate: 1.0,
+            rate: 1.1,
             pitch: 1.0,
         })
     }
@@ -163,7 +221,7 @@ const LoginPage = (props) => {
 
         setIsSpeakDone(false);
         const speechMsg = new SpeechSynthesisUtterance()
-        speechMsg.rate = prop.rate || 1 // 속도: 0.1 ~ 10      
+        speechMsg.rate = prop.rate || 1.1 // 속도: 0.1 ~ 10      
         speechMsg.pitch = prop.pitch || 1 // 음높이: 0 ~ 2
         speechMsg.voice = voices.filter(function(voice) { return voice.name == 'Google 한국의'; })[0];
         speechMsg.text = text
