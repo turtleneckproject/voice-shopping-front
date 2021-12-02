@@ -1,0 +1,13 @@
+.pay_title{
+    display: flex;
+    height: 80px;
+    /* list-style: none; */
+    align-items: center;
+    border-bottom: 1px solid #d2d2d2
+}
+
+.subName{
+    font-family: NotoSansKR-Medium;
+    font-size: 30px;
+    color: #444444;
+}

@@ -1,0 +1,12 @@
+.search_result {
+    display: flex;
+    width: 1280px;
+    height: 104px;
+}
+
+.search_result_txt {
+    margin: 52px 0 26px 24px;
+    font-family: NotoSansKR-Medium;
+    font-size: 18px;
+    color: #686868;
+}
