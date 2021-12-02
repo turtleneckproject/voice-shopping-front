@@ -1,0 +1,9 @@
+.GroupNav {
+    position: sticky;
+    top: 0;
+    display: flex;
+    width: 1280px;
+    height: 60px;
+    margin: 0 auto;
+    align-items: center;
+}

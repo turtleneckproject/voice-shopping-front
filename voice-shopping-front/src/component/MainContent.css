@@ -1,0 +1,11 @@
+.main_content {
+    display: flex;
+    width: 1280px;
+    align-items: center;
+    padding-top: 100px;
+}
+
+.main_content img {
+    width: 1280px;
+    align-items: center;
+}
