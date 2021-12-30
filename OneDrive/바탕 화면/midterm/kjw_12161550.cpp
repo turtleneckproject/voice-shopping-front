@@ -8,9 +8,9 @@ using namespace std;
 
 class Soldier {
 private:
-	string name;
-	int grade; // 1 : 이등병, 2 : 일병, 3 : 상병, 4 : 병장
-	string hobby;
+	string name = "";
+	int grade = 0; // 1 : 이등병, 2 : 일병, 3 : 상병, 4 : 병장
+	string hobby = "";
 
 public:
 	Soldier();
@@ -31,10 +31,21 @@ public:
 	static int soldier_count;
 	static void PrintSoldierCount();
 };
-Soldier::Soldier() {
+Soldier::Soldier() { // default 생성자
+	soldier_count++;
+}
+Soldier::~Soldier() { // 소멸자
+	if (name == "성윤모")
+		cout << name << "의병제대" << endl;
+	else
+		cout << name << "전역" << endl;
 
+	else if (soldier_count == 0) {
+		cout << "2중대 인원 : 0"
+	}
 }
 Soldier::Soldier(const string& name, int grade, const string& hobby) {
+	soldier_count++;
 	this->name = name;
 	this->grade = grade;
 	this->hobby = hobby;
@@ -61,19 +72,52 @@ int main() {
 	}
 	else if (c == 2) {
 		cout << ym.getName() << " " << ym.getGrade() <<"의 취미(특기)는 " << ym.getHobby() << "입니다." << endl;
-		cout << ym.getName() << " " << ym.getGrade() << "의 취미(특기)는 " << ym.getHobby() << "입니다." << endl;
-		cout << ym.getName() << " " << ym.getGrade() << "의 취미(특기)는 " << ym.getHobby() << "입니다." << endl;
-		cout << ym.getName() << " " << ym.getGrade() << "의 취미(특기)는 " << ym.getHobby() << "입니다." << endl;
-		cout << ym.getName() << " " << ym.getGrade() << "의 취미(특기)는 " << ym.getHobby() << "입니다." << endl;
+		cout << cb.getName() << " " << cb.getGrade() << "의 취미(특기)는 " << cb.getHobby() << "입니다." << endl;
+		cout << bm.getName() << " " << bm.getGrade() << "의 취미(특기)는 " << bm.getHobby() << "입니다." << endl;
+		cout << yd.getName() << " " << yd.getGrade() << "의 취미(특기)는 " << yd.getHobby() << "입니다." << endl;
+		cout << ks.getName() << " " << ks.getGrade() << "의 취미(특기)는 " << ks.getHobby() << "입니다." << endl;
+		cout << ci.getName() << " " << ci.getGrade() << "의 취미(특기)는 " << ci.getHobby() << "입니다." << endl;
+
 	}
 	else if (c == 3) {
+		random_device rd;
+		mt19937 gen(rd());
+		int a = 0;
+		int b = 0;
+		cout << "행 입력 : ";
+		cin >> a;
+		cout << "열 입력 : ";
+		cin >> b;
+		uniform_int_distribution <int> distrib(1, 6);
+		int line = 0;
+		for (int i = 0; i < a; i++) {
+			for (int j = 0; j < b; j++) {
+				if(line % 4 == 0){
+					line = 0;
+					cout << "\n";
+				}
+				cout << distrib(gen) << ' ';
+			}
+		}
+
 
 	}
 	else if (c == 4) {
-
+		while (true) {
+			string s = "";
+			cout << ym.getName() << " 입력 : ";
+			cin >> s;
+			if (s.find("바보") || s.find("병신") || s.find("미친")) {
+				cout << "(전송불가) ******************" << endl;
+			}
+			else {
+				cout << "(전송됨)" << s << endl;
+			}
+		}
 	}
 	else if (c == 5) {
-
+		cout << "* 전역을 축하드립니다 * " << endl;
+		exit;
 	}
 	//욕설을 하면 블라인드 처리되면서 보내지지가 않음, 비속어 처리에 람다함수를 사용하심
 	// 바보, 병신, 미친
