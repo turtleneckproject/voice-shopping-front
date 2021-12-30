@@ -36,10 +36,10 @@ Soldier::Soldier() { // default 생성자
 	soldier_count++;
 }
 Soldier::~Soldier() { // 소멸자
-	if (name == "성윤모")
+	soldier_count--;
+	if (name == "성윤모") {
 		cout << name << "의병제대" << endl;
-	else if (soldier_count == 0) {
-		cout << "2중대 인원 : 0" << endl;
+		cout << "2중대 인원 : " << soldier_count << endl;
 	}
 	else
 		cout << name << "전역" << endl;
@@ -142,7 +142,7 @@ int main() {
 				string s = "";
 				cout << ym.getName() << " 입력 : ";
 				cin >> s;
-				if (s.find("바보") == 1 || s.find("병신") || s.find("미친")) {
+				if (s.find("바보") <20|| s.find("병신") < 20 || s.find("미친") < 20) {
 					cout << "(전송불가) ******************" << endl;
 				}
 				else {
@@ -165,11 +165,7 @@ int main() {
 	//(전송불가) *******************
 	// 성윤모 입력 : 
 	// 보내지면 (전송됨)
-	// 끝을 입력하면 
-	// 소멸자에 * 전역을 축하드립니다 *
-	// () 전역
-	// () 의병제대
+	//생성자 동작, static 변수 사용
+	// hobby가 작업
 	return 0;
 }
-//생성자 동작, static 변수 사용
-// hobby가 작업
