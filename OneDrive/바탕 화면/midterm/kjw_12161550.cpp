@@ -30,7 +30,7 @@ public:
 
 	static int soldier_count; // 정적변수, 모두 객체가 공유
 	static void PrintSoldierCount(); // 정적함수, 모두 객체가 공유
-	int* p = new int[10]; // 동적 할당
+	string* p = new string[10]; // 동적 할당
 };
 Soldier::Soldier() { // default 생성자
 	soldier_count++;
@@ -46,6 +46,7 @@ Soldier::~Soldier() { // 소멸자
 }
 Soldier::Soldier(const string& name, int grade, const string& hobby) { // 파라미터 생성자
 	soldier_count++;
+	*p = name;
 	this->name = name;
 	this->grade = grade;
 	this->hobby = hobby;
@@ -57,6 +58,11 @@ int Soldier::*p = 0;
 void Soldier::PrintSoldierCount() {
 	cout << "2중대 인원 : " << soldier_count << "\n";
 }
+void fun() { // 심진우 입대
+	Soldier ci("심진우", 1, "작업");
+	Soldier::PrintSoldierCount();
+	// 함수가 종료되면 심진우 전역
+}
 
 int main() {
 	Soldier ym("성윤모", 1, "롤리폴리");
@@ -66,7 +72,6 @@ int main() {
 	Soldier ks("김상훈", 3, "무에타이");
 	Soldier ci("최일구", 4, "격투기 시청");
 	int len = Soldier::soldier_count;
-	p[0] = 
 
 	while (true) {
 		cout << "1) 2중대 2) 취미/특기 3) 부대정렬 4) 실시간 마음의 편지 5) 종료 ?";
@@ -75,6 +80,12 @@ int main() {
 		if (c == 1) {
 			Soldier::PrintSoldierCount();
 			cout << ym.getName() << endl;
+			cout << cb.getName() << endl;
+			cout << bm.getName() << endl;
+			cout << yd.getName() << endl;
+			cout << ks.getName() << endl;
+			cout << ci.getName() << endl;
+			fun(); // 심진우 입대
 		}
 		else if (c == 2) {
 			cout << ym.getName() << " " << ym.getGrade() << "의 취미(특기)는 " << ym.getHobby() << "입니다." << endl;
@@ -83,7 +94,6 @@ int main() {
 			cout << yd.getName() << " " << yd.getGrade() << "의 취미(특기)는 " << yd.getHobby() << "입니다." << endl;
 			cout << ks.getName() << " " << ks.getGrade() << "의 취미(특기)는 " << ks.getHobby() << "입니다." << endl;
 			cout << ci.getName() << " " << ci.getGrade() << "의 취미(특기)는 " << ci.getHobby() << "입니다." << endl;
-
 		}
 		else if (c == 3) {
 			random_device rd;
@@ -96,30 +106,34 @@ int main() {
 			cin >> b;
 			uniform_int_distribution <int> distrib(1, 6);
 			int line = 0;
-			for (int i = 0; i < a; i++) {
-				for (int j = 0; j < b; j++) {
-					if (line % 5 == 0) {
-						line = 0;
-						cout << "\n";
-					}
-					if (distrib(gen) == 1) {
-						cout << ym.getName() << ' ';
-					}
-					else if (distrib(gen) == 2) {
-						cout << cb.getName() << ' ';
-					}
-					else if (distrib(gen) == 3) {
-						cout << bm.getName() << ' ';
-					}
-					else if (distrib(gen) == 4) {
-						cout << yd.getName() << ' ';
-					}
-					else if (distrib(gen) == 5) {
-						cout << ks.getName() << ' ';
-					}
-					else if (distrib(gen) == 6) {
-						cout << ci.getName() << ' ';
-					}
+			for (int i = 0; i < (a * b); i++) {
+				if (distrib(gen) == 1) {
+					line++;
+					cout << ym.getName() << ' ';
+				}
+				else if (distrib(gen) == 2) {
+					line++;
+					cout << cb.getName() << ' ';
+				}
+				else if (distrib(gen) == 3) {
+					line++;
+					cout << bm.getName() << ' ';
+				}
+				else if (distrib(gen) == 4) {
+					line++;
+					cout << yd.getName() << ' ';
+				}
+				else if (distrib(gen) == 5) {
+					line++;
+					cout << ks.getName() << ' ';
+				}
+				else if (distrib(gen) == 6) {
+					line++;
+					cout << ci.getName() << ' ';
+				}
+				if (line % 5 == 0) {
+					line = 0;
+					cout << "\n";
 				}
 			}
 		}
@@ -128,7 +142,7 @@ int main() {
 				string s = "";
 				cout << ym.getName() << " 입력 : ";
 				cin >> s;
-				if (s.find("바보") || s.find("병신") || s.find("미친")) {
+				if (s.find("바보") == 1 || s.find("병신") || s.find("미친")) {
 					cout << "(전송불가) ******************" << endl;
 				}
 				else {
