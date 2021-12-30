@@ -28,8 +28,9 @@ public:
 		return hobby;
 	}
 
-	static int soldier_count;
-	static void PrintSoldierCount();
+	static int soldier_count; // 정적변수, 모두 객체가 공유
+	static void PrintSoldierCount(); // 정적함수, 모두 객체가 공유
+	int* p = new int[10]; // 동적 할당
 };
 Soldier::Soldier() { // default 생성자
 	soldier_count++;
@@ -37,14 +38,13 @@ Soldier::Soldier() { // default 생성자
 Soldier::~Soldier() { // 소멸자
 	if (name == "성윤모")
 		cout << name << "의병제대" << endl;
+	else if (soldier_count == 0) {
+		cout << "2중대 인원 : 0" << endl;
+	}
 	else
 		cout << name << "전역" << endl;
-
-	else if (soldier_count == 0) {
-		cout << "2중대 인원 : 0"
-	}
 }
-Soldier::Soldier(const string& name, int grade, const string& hobby) {
+Soldier::Soldier(const string& name, int grade, const string& hobby) { // 파라미터 생성자
 	soldier_count++;
 	this->name = name;
 	this->grade = grade;
@@ -52,6 +52,7 @@ Soldier::Soldier(const string& name, int grade, const string& hobby) {
 	cout << name << "님의 입대를 환영합니다" << endl;
 }
 int Soldier::soldier_count = 0;
+int Soldier::*p = 0;
 
 void Soldier::PrintSoldierCount() {
 	cout << "2중대 인원 : " << soldier_count << "\n";
@@ -64,63 +65,89 @@ int main() {
 	Soldier yd("임다혜", 2, "뺑끼치기");
 	Soldier ks("김상훈", 3, "무에타이");
 	Soldier ci("최일구", 4, "격투기 시청");
-	cout << "1) 2중대 2) 취미/특기 3) 부대정렬 4) 실시간 마음의 편지 5) 종료 ?";
-	int c = 0;
-	cin >> c;
-	if (c == 1) {
-		cout << "2중대 인원 : " << Soldier::soldier_count << endl;
-	}
-	else if (c == 2) {
-		cout << ym.getName() << " " << ym.getGrade() <<"의 취미(특기)는 " << ym.getHobby() << "입니다." << endl;
-		cout << cb.getName() << " " << cb.getGrade() << "의 취미(특기)는 " << cb.getHobby() << "입니다." << endl;
-		cout << bm.getName() << " " << bm.getGrade() << "의 취미(특기)는 " << bm.getHobby() << "입니다." << endl;
-		cout << yd.getName() << " " << yd.getGrade() << "의 취미(특기)는 " << yd.getHobby() << "입니다." << endl;
-		cout << ks.getName() << " " << ks.getGrade() << "의 취미(특기)는 " << ks.getHobby() << "입니다." << endl;
-		cout << ci.getName() << " " << ci.getGrade() << "의 취미(특기)는 " << ci.getHobby() << "입니다." << endl;
+	int len = Soldier::soldier_count;
+	p[0] = 
 
-	}
-	else if (c == 3) {
-		random_device rd;
-		mt19937 gen(rd());
-		int a = 0;
-		int b = 0;
-		cout << "행 입력 : ";
-		cin >> a;
-		cout << "열 입력 : ";
-		cin >> b;
-		uniform_int_distribution <int> distrib(1, 6);
-		int line = 0;
-		for (int i = 0; i < a; i++) {
-			for (int j = 0; j < b; j++) {
-				if(line % 4 == 0){
-					line = 0;
-					cout << "\n";
+	while (true) {
+		cout << "1) 2중대 2) 취미/특기 3) 부대정렬 4) 실시간 마음의 편지 5) 종료 ?";
+		int c = 0;
+		cin >> c;
+		if (c == 1) {
+			Soldier::PrintSoldierCount();
+			cout << ym.getName() << endl;
+		}
+		else if (c == 2) {
+			cout << ym.getName() << " " << ym.getGrade() << "의 취미(특기)는 " << ym.getHobby() << "입니다." << endl;
+			cout << cb.getName() << " " << cb.getGrade() << "의 취미(특기)는 " << cb.getHobby() << "입니다." << endl;
+			cout << bm.getName() << " " << bm.getGrade() << "의 취미(특기)는 " << bm.getHobby() << "입니다." << endl;
+			cout << yd.getName() << " " << yd.getGrade() << "의 취미(특기)는 " << yd.getHobby() << "입니다." << endl;
+			cout << ks.getName() << " " << ks.getGrade() << "의 취미(특기)는 " << ks.getHobby() << "입니다." << endl;
+			cout << ci.getName() << " " << ci.getGrade() << "의 취미(특기)는 " << ci.getHobby() << "입니다." << endl;
+
+		}
+		else if (c == 3) {
+			random_device rd;
+			mt19937 gen(rd());
+			int a = 0;
+			int b = 0;
+			cout << "행 입력 : ";
+			cin >> a;
+			cout << "열 입력 : ";
+			cin >> b;
+			uniform_int_distribution <int> distrib(1, 6);
+			int line = 0;
+			for (int i = 0; i < a; i++) {
+				for (int j = 0; j < b; j++) {
+					if (line % 5 == 0) {
+						line = 0;
+						cout << "\n";
+					}
+					if (distrib(gen) == 1) {
+						cout << ym.getName() << ' ';
+					}
+					else if (distrib(gen) == 2) {
+						cout << cb.getName() << ' ';
+					}
+					else if (distrib(gen) == 3) {
+						cout << bm.getName() << ' ';
+					}
+					else if (distrib(gen) == 4) {
+						cout << yd.getName() << ' ';
+					}
+					else if (distrib(gen) == 5) {
+						cout << ks.getName() << ' ';
+					}
+					else if (distrib(gen) == 6) {
+						cout << ci.getName() << ' ';
+					}
 				}
-				cout << distrib(gen) << ' ';
 			}
 		}
-
-
-	}
-	else if (c == 4) {
-		while (true) {
-			string s = "";
-			cout << ym.getName() << " 입력 : ";
-			cin >> s;
-			if (s.find("바보") || s.find("병신") || s.find("미친")) {
-				cout << "(전송불가) ******************" << endl;
-			}
-			else {
-				cout << "(전송됨)" << s << endl;
+		else if (c == 4) {
+			while (true) {
+				string s = "";
+				cout << ym.getName() << " 입력 : ";
+				cin >> s;
+				if (s.find("바보") || s.find("병신") || s.find("미친")) {
+					cout << "(전송불가) ******************" << endl;
+				}
+				else {
+					cout << "(전송됨)" << s << endl;
+				}
+				if (s == "끝")
+					break;
 			}
 		}
-	}
-	else if (c == 5) {
-		cout << "* 전역을 축하드립니다 * " << endl;
-		exit;
+		else if (c == 5) {
+			cout << "* 전역을 축하드립니다 * " << endl;
+			break;
+		}
+		else {
+			cout << "메뉴에서 골라주세요." << endl;
+		}
 	}
 	//욕설을 하면 블라인드 처리되면서 보내지지가 않음, 비속어 처리에 람다함수를 사용하심
-	// 바보, 병신, 미친
+	// 바보, 병신, 미친 3가지
 	//(전송불가) *******************
 	// 성윤모 입력 : 
 	// 보내지면 (전송됨)
